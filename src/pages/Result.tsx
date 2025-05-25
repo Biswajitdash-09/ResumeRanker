@@ -1,0 +1,332 @@
+
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { 
+  FileText, 
+  TrendingUp, 
+  AlertCircle, 
+  CheckCircle, 
+  Download,
+  RefreshCw,
+  Target,
+  Zap,
+  Award
+} from "lucide-react";
+
+const Result = () => {
+  const [score, setScore] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading and score animation
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    const scoreTimer = setTimeout(() => {
+      setScore(85);
+    }, 2500);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(scoreTimer);
+    };
+  }, []);
+
+  const scoreBreakdown = [
+    { category: "Keywords Match", score: 90, color: "bg-green-500" },
+    { category: "Formatting", score: 85, color: "bg-blue-500" },
+    { category: "Skills Alignment", score: 80, color: "bg-purple-500" },
+    { category: "Experience Relevance", score: 88, color: "bg-yellow-500" },
+  ];
+
+  const suggestions = [
+    {
+      type: "critical",
+      icon: AlertCircle,
+      title: "Add Technical Keywords",
+      description: "Include 'React', 'Node.js', and 'MongoDB' to match job requirements",
+      impact: "High Impact"
+    },
+    {
+      type: "important",
+      icon: TrendingUp,
+      title: "Improve Section Headers",
+      description: "Use standard headers like 'Professional Experience' instead of 'Work History'",
+      impact: "Medium Impact"
+    },
+    {
+      type: "good",
+      icon: CheckCircle,
+      title: "Well-Structured Content",
+      description: "Your resume has good formatting and clear sections",
+      impact: "Maintained"
+    },
+  ];
+
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return "text-green-600";
+    if (score >= 60) return "text-yellow-600";
+    return "text-red-600";
+  };
+
+  const getScoreGradient = (score: number) => {
+    if (score >= 80) return "from-green-500 to-emerald-500";
+    if (score >= 60) return "from-yellow-500 to-orange-500";
+    return "from-red-500 to-rose-500";
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <Navbar />
+        <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="w-24 h-24 mx-auto mb-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center"
+              >
+                <Zap className="h-12 w-12 text-white" />
+              </motion.div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                Analyzing Your Resume...
+              </h1>
+              <p className="text-lg text-gray-600">
+                Our AI is processing your resume and calculating your ATS score.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <Navbar />
+      
+      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Your ATS Score Results
+            </h1>
+            <p className="text-xl text-gray-600">
+              Here's how your resume performs against ATS systems
+            </p>
+          </motion.div>
+
+          {/* Score Circle */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="text-center mb-12"
+          >
+            <Card className="max-w-md mx-auto bg-white/80 backdrop-blur-lg border-white/20">
+              <CardContent className="p-8">
+                <div className="relative w-48 h-48 mx-auto mb-6">
+                  <svg className="w-48 h-48 transform -rotate-90" viewBox="0 0 100 100">
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      stroke="currentColor"
+                      strokeWidth="8"
+                      fill="none"
+                      className="text-gray-200"
+                    />
+                    <motion.circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      stroke="url(#gradient)"
+                      strokeWidth="8"
+                      fill="none"
+                      strokeLinecap="round"
+                      initial={{ strokeDasharray: "0 251" }}
+                      animate={{ strokeDasharray: `${(score / 100) * 251} 251` }}
+                      transition={{ duration: 2, ease: "easeInOut" }}
+                    />
+                    <defs>
+                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" className="text-blue-500" stopColor="currentColor" />
+                        <stop offset="100%" className="text-purple-500" stopColor="currentColor" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1.5 }}
+                      className="text-center"
+                    >
+                      <motion.span
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
+                        className={`text-4xl font-bold ${getScoreColor(score)}`}
+                      >
+                        {score}%
+                      </motion.span>
+                      <p className="text-sm text-gray-600 mt-1">ATS Score</p>
+                    </motion.div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-center space-x-2 mb-4">
+                  <Award className={`h-6 w-6 ${getScoreColor(score)}`} />
+                  <span className="text-lg font-semibold">
+                    {score >= 80 ? "Excellent" : score >= 60 ? "Good" : "Needs Improvement"}
+                  </span>
+                </div>
+                
+                <p className="text-gray-600 text-center">
+                  Your resume has a {score >= 80 ? "high" : score >= 60 ? "moderate" : "low"} chance of passing through ATS systems.
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Score Breakdown */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mb-12"
+          >
+            <Card className="bg-white/80 backdrop-blur-lg border-white/20">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Target className="h-6 w-6 mr-2 text-blue-600" />
+                  Score Breakdown
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {scoreBreakdown.map((item, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                      className="space-y-2"
+                    >
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">{item.category}</span>
+                        <span className="font-bold">{item.score}%</span>
+                      </div>
+                      <Progress
+                        value={item.score}
+                        className="h-2"
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Suggestions */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mb-12"
+          >
+            <Card className="bg-white/80 backdrop-blur-lg border-white/20">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <TrendingUp className="h-6 w-6 mr-2 text-blue-600" />
+                  Improvement Suggestions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {suggestions.map((suggestion, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+                      className="flex items-start space-x-4 p-4 rounded-lg bg-gray-50/50"
+                    >
+                      <suggestion.icon 
+                        className={`h-6 w-6 mt-1 ${
+                          suggestion.type === "critical" ? "text-red-500" :
+                          suggestion.type === "important" ? "text-yellow-500" :
+                          "text-green-500"
+                        }`} 
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="font-semibold">{suggestion.title}</h3>
+                          <Badge 
+                            variant={
+                              suggestion.type === "critical" ? "destructive" :
+                              suggestion.type === "important" ? "default" :
+                              "secondary"
+                            }
+                          >
+                            {suggestion.impact}
+                          </Badge>
+                        </div>
+                        <p className="text-gray-600">{suggestion.description}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8"
+            >
+              <Download className="mr-2 h-5 w-5" />
+              Download Report
+            </Button>
+            <Button asChild variant="outline" size="lg" className="px-8">
+              <Link to="/upload">
+                <RefreshCw className="mr-2 h-5 w-5" />
+                Analyze Another Resume
+              </Link>
+            </Button>
+          </motion.div>
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Result;
