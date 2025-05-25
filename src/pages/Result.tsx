@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -108,13 +107,6 @@ For more information, visit: https://resumeranker.lovable.app
       clearTimeout(scoreTimer);
     };
   }, []);
-
-  const scoreBreakdown = [
-    { category: "Keywords Match", score: 90, color: "bg-green-500" },
-    { category: "Formatting", score: 85, color: "bg-blue-500" },
-    { category: "Skills Alignment", score: 80, color: "bg-purple-500" },
-    { category: "Experience Relevance", score: 88, color: "bg-yellow-500" },
-  ];
 
   const suggestions = [
     {
