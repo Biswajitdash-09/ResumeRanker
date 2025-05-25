@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Zap, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface AnalysisButtonProps {
   file: File | null;
@@ -12,6 +13,7 @@ interface AnalysisButtonProps {
 
 const AnalysisButton = ({ file, isAnalyzing, setIsAnalyzing }: AnalysisButtonProps) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleAnalyze = async () => {
     if (!file) {
@@ -25,17 +27,35 @@ const AnalysisButton = ({ file, isAnalyzing, setIsAnalyzing }: AnalysisButtonPro
 
     setIsAnalyzing(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsAnalyzing(false);
-      // In a real app, this would navigate to results with actual data
-      window.location.href = "/result";
-    }, 3000);
-
     toast({
       title: "Analysis started!",
       description: "Analyzing your resume with AI...",
     });
+
+    // Simulate API call with proper error handling
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      
+      // Store file info in sessionStorage for the result page
+      sessionStorage.setItem('analyzedFile', JSON.stringify({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        analyzedAt: new Date().toISOString()
+      }));
+      
+      // Use React Router navigation instead of window.location
+      navigate('/result');
+    } catch (error) {
+      console.error('Analysis error:', error);
+      toast({
+        title: "Analysis failed",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (

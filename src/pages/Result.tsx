@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -28,6 +28,8 @@ const Result = () => {
     { category: "Skills Alignment", score: 0, color: "bg-purple-500" },
     { category: "Experience Relevance", score: 0, color: "bg-yellow-500" },
   ]);
+  const [analyzedFile, setAnalyzedFile] = useState<any>(null);
+  const navigate = useNavigate();
 
   // Generate dynamic scores based on random factors (simulating AI analysis)
   const generateDynamicScore = () => {
@@ -53,6 +55,7 @@ const Result = () => {
     const reportData = {
       overallScore: score,
       breakdown: scoreBreakdown,
+      fileName: analyzedFile?.name || 'resume.pdf',
       generatedAt: new Date().toISOString(),
       recommendations: [
         "Add more relevant technical keywords to match job requirements",
@@ -66,6 +69,7 @@ const Result = () => {
 ATS SCORE REPORT
 ================
 
+File Analyzed: ${reportData.fileName}
 Overall ATS Score: ${score}%
 Generated: ${new Date().toLocaleDateString()}
 
@@ -90,14 +94,35 @@ For more information, visit: https://resumeranker.lovable.app
     URL.revokeObjectURL(url);
   };
 
-  // Simulate loading and score animation
+  // Check if user came from upload page and initialize scores
   useEffect(() => {
+    // Check if there's a file that was analyzed
+    const fileData = sessionStorage.getItem('analyzedFile');
+    
+    if (!fileData) {
+      // If no file data found, redirect back to upload
+      console.log('No analyzed file found, redirecting to upload');
+      navigate('/upload');
+      return;
+    }
+
+    try {
+      const parsedFileData = JSON.parse(fileData);
+      setAnalyzedFile(parsedFileData);
+      console.log('Found analyzed file:', parsedFileData);
+    } catch (error) {
+      console.error('Error parsing file data:', error);
+      navigate('/upload');
+      return;
+    }
+
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2000);
 
     const scoreTimer = setTimeout(() => {
       const dynamicScores = generateDynamicScore();
+      console.log('Generated dynamic scores:', dynamicScores);
       setScore(dynamicScores.overall);
       setScoreBreakdown(dynamicScores.breakdown);
     }, 2500);
@@ -106,7 +131,7 @@ For more information, visit: https://resumeranker.lovable.app
       clearTimeout(timer);
       clearTimeout(scoreTimer);
     };
-  }, []);
+  }, [navigate]);
 
   const suggestions = [
     {
@@ -138,12 +163,6 @@ For more information, visit: https://resumeranker.lovable.app
     return "text-red-600";
   };
 
-  const getScoreGradient = (score: number) => {
-    if (score >= 80) return "from-green-500 to-emerald-500";
-    if (score >= 60) return "from-yellow-500 to-orange-500";
-    return "from-red-500 to-rose-500";
-  };
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -166,7 +185,7 @@ For more information, visit: https://resumeranker.lovable.app
                 Analyzing Your Resume...
               </h1>
               <p className="text-lg text-gray-600">
-                Our AI is processing your resume and calculating your ATS score.
+                Our AI is processing {analyzedFile?.name || 'your resume'} and calculating your ATS score.
               </p>
             </motion.div>
           </div>
@@ -192,7 +211,7 @@ For more information, visit: https://resumeranker.lovable.app
               Your ATS Score Results
             </h1>
             <p className="text-xl text-gray-600">
-              Here's how your resume performs against ATS systems
+              Analysis for: {analyzedFile?.name || 'your resume'}
             </p>
           </motion.div>
 
