@@ -98,11 +98,9 @@ const Upload = () => {
                     1. Upload Your Resume
                   </Label>
                   
-                  <motion.div
+                  <div
                     {...getRootProps()}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-300 ${
+                    className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-300 hover:scale-105 ${
                       isDragActive
                         ? "border-blue-500 bg-blue-50"
                         : file
@@ -149,7 +147,7 @@ const Upload = () => {
                         </p>
                       </div>
                     )}
-                  </motion.div>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
