@@ -1,47 +1,108 @@
+ 📄 ResumeRanker
 
-**Use your preferred IDE**
+🚀 [Live Demo](https://resume-ranker-biswajit.vercel.app/)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+ResumeRanker is a modern, AI-powered web application that analyzes resumes and evaluates their ATS (Applicant Tracking System)** friendliness. It provides actionable suggestions for improvement and can compare resumes against job descriptions to assess relevance and match score.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Follow these steps:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+ 🔧 Tech Stack
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+This project is built with the following technologies:
 
-# Step 3: Install the necessary dependencies.
-npm i
+* ⚡ **[Vite](https://vitejs.dev/)** – Blazing fast build tool
+* 💡 **[TypeScript](https://www.typescriptlang.org/)** – Strongly typed JavaScript
+* ⚛️ **[React](https://react.dev/)** – Component-based UI library
+* 💅 **[Tailwind CSS](https://tailwindcss.com/)** – Utility-first CSS framework
+* 🧩 **[shadcn/ui](https://ui.shadcn.com/)** – Beautifully designed accessible components
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+
+
+🖥️ Features
+
+* 📤 Upload your resume (PDF format)
+* 🧠 AI-generated ATS score and analysis
+* 📋 Suggestions to improve your resume for better shortlisting chances
+* 📑 Compare resume against a **Job Description**
+* 🌐 Clean, responsive UI with dark mode support
+* ⚙️ Built with modular components for scalability
+
+
+
+🚀 Getting Started
+
+To run this project locally:
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/your-username/resume-ranker.git
+   cd resume-ranker
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open `http://localhost:5173` in your browser to view it locally.
+
+
+
+ 📁 Folder Structure (Simplified)
+
+resume-ranker/
+├── public/              # Static files
+├── src/
+│   ├── components/      # Reusable UI components
+│   ├── pages/           # App pages
+│   ├── utils/           # Utility functions
+│   ├── styles/          # Global styles and Tailwind config
+│   └── main.tsx         # App entry point
+├── index.html
+├── tailwind.config.js
+└── vite.config.ts
 ```
 
-**Edit a file directly in GitHub**
+ 🧠 Future Improvements
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+* 🔍 Resume keyword highlighting
+* 📊 Analytics dashboard for job-readiness
+* 💬 Integration with GPT-based job interview Q\&A
+* 🧾 Exportable resume reports
 
-**Use GitHub Codespaces**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## What technologies are used for this project?
+ 🙌 Contributing
 
-This project is built with:
+Contributions are welcome! Feel free to fork this repo, make changes, and open a pull request.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+
+
+📜 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+
+
+ ✨ Acknowledgements
+
+Thanks to the creators of:
+
+* Vite
+* React
+* Tailwind CSS
+* shadcn/ui
+
+
+
+Let me know if you'd like to add badges, deployment info (like Vercel setup), or backend/API integration details.
+
 
